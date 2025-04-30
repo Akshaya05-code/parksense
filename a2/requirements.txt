@@ -1,0 +1,9 @@
+Flask==3.0.3
+flask-cors==5.0.1
+pymongo==4.10.1
+opencv-python==4.11.0.86
+opencv-python-headless==4.11.0.86
+pillow==11.0.0
+easyocr==1.7.2
+imutils==0.5.4
+regex==2024.11.6
