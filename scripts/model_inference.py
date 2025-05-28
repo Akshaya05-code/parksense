@@ -4,6 +4,7 @@ import os
 from model_loader import TensorRTModel
 import pytesseract  # For OCR (number plate text extraction)
 
+# harshith is shit
 class Inference:
     def __init__(self, car_model_path, number_plate_model_path):
         """Initialize TensorRT models for car and number plate detection."""
