@@ -1,71 +1,91 @@
-import tensorrt as trt
-import numpy as np
-import pycuda.driver as cuda
-import pycuda.autoinit
+import onnxruntime as ort
 import os
+from pathlib import Path
 
-# TensorRT logger for error handling
-TRT_LOGGER = trt.Logger(trt.Logger.WARNING)
+class ModelLoader:
+    """Class to load and manage ONNX models for car and number plate detection."""
+    
+    def __init__(self, car_model_path: str, np_model_path: str):
+        """
+        Initialize the ModelLoader with paths to car and number plate ONNX models.
+        
+        Args:
+            car_model_path (str): Path to the car detection ONNX model.
+            np_model_path (str): Path to the number plate detection ONNX model.
+        
+        Raises:
+            FileNotFoundError: If model files do not exist.
+            RuntimeError: If model loading fails.
+        """
+        # Validate model paths
+        self.car_model_path = Path(car_model_path)
+        self.np_model_path = Path(np_model_path)
+        
+        if not self.car_model_path.exists():
+            raise FileNotFoundError(f"Car model file not found: {self.car_model_path}")
+        if not self.np_model_path.exists():
+            raise FileNotFoundError(f"Number plate model file not found: {self.np_model_path}")
+        
+        # Initialize inference sessions
+        self.car_session = None
+        self.np_session = None
+        self._load_models()
+    
+    def _load_models(self):
+        """Load the ONNX models into inference sessions."""
+        try:
+            self.car_session = ort.InferenceSession(str(self.car_model_path))
+            print(f"Successfully loaded car detection model: {self.car_model_path}")
+        except Exception as e:
+            raise RuntimeError(f"Failed to load car detection model: {str(e)}")
+        
+        try:
+            self.np_session = ort.InferenceSession(str(self.np_model_path))
+            print(f"Successfully loaded number plate detection model: {self.np_model_path}")
+        except Exception as e:
+            raise RuntimeError(f"Failed to load number plate detection model: {str(e)}")
+    
+    def get_car_session(self):
+        """
+        Get the car detection model inference session.
+        
+        Returns:
+            ort.InferenceSession: The car detection model session.
+        """
+        return self.car_session
+    
+    def get_np_session(self):
+        """
+        Get the number plate detection model inference session.
+        
+        Returns:
+            ort.InferenceSession: The number plate detection model session.
+        """
+        return self.np_session
+    
+    def get_car_input_name(self):
+        """
+        Get the input name for the car detection model.
+        
+        Returns:
+            str: The input name for the car detection model.
+        """
+        return self.car_session.get_inputs()[0].name
+    
+    def get_np_input_name(self):
+        """
+        Get the input name for the number plate detection model.
+        
+        Returns:
+            str: The input name for the number plate detection model.
+        """
+        return self.np_session.get_inputs()[0].name
 
-class TensorRTModel:
-    def __init__(self, trt_path):
-        """Initialize and load a TensorRT model from a .trt file."""
-        self.engine = None
-        self.context = None
-        self.inputs = []
-        self.outputs = []
-        self.bindings = []
-        self.stream = cuda.Stream()
-        
-        # Load the TensorRT engine
-        if not os.path.exists(trt_path):
-            raise FileNotFoundError(f"TensorRT engine file not found at {trt_path}. Ensure the model has been converted using trtexec.")
-        
-        with open(trt_path, 'rb') as f, trt.Runtime(TRT_LOGGER) as runtime:
-            self.engine = runtime.deserialize_cuda_engine(f.read())
-        
-        if self.engine is None:
-            raise RuntimeError(f"Failed to load TensorRT engine from {trt_path}.")
-        
-        # Create execution context
-        self.context = self.engine.create_execution_context()
-        print(f"Loaded TensorRT model from {trt_path}")
-
-    def allocate_buffers(self, input_shape):
-        """Allocate buffers for model input and output."""
-        self.inputs = []
-        self.outputs = []
-        self.bindings = []
-        
-        for binding in self.engine:
-            size = trt.volume(self.engine.get_binding_shape(binding)) * self.engine.max_batch_size
-            dtype = trt.nptype(self.engine.get_binding_dtype(binding))
-            # Allocate host and device memory
-            host_mem = cuda.pagelocked_empty(size, dtype)
-            device_mem = cuda.mem_alloc(host_mem.nbytes)
-            self.bindings.append(int(device_mem))
-            if self.engine.binding_is_input(binding):
-                self.inputs.append({'host': host_mem, 'device': device_mem})
-            else:
-                self.outputs.append({'host': host_mem, 'device': device_mem})
-
-    def infer(self, input_data):
-        """Run inference on the input data using the loaded TensorRT model."""
-        # Copy input data to host memory
-        np.copyto(self.inputs[0]['host'], input_data.ravel())
-        
-        # Transfer input data to device
-        cuda.memcpy_htod_async(self.inputs[0]['device'], self.inputs[0]['host'], self.stream)
-        
-        # Execute inference
-        self.context.execute_async_v2(bindings=self.bindings, stream_handle=self.stream.handle)
-        
-        # Transfer output data back to host
-        for out in self.outputs:
-            cuda.memcpy_dtoh_async(out['host'], out['device'], self.stream)
-        
-        # Synchronize the stream
-        self.stream.synchronize()
-        
-        # Reshape outputs to match the model's output shape
-        return [out['host'].reshape(self.engine.get_binding_shape(i + 1)) for i, out in enumerate(self.outputs)]
+if __name__ == "__main__":
+    # Example usage for testing
+    model_loader = ModelLoader(
+        car_model_path="parksense\models\car.onnx",
+        np_model_path="parksense\models\\np.onnx"
+    )
+    print("Car model input name:", model_loader.get_car_input_name())
+    print("Number plate model input name:", model_loader.get_np_input_name())
