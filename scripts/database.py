@@ -92,3 +92,45 @@ class Database:
             print("MongoDB connection closed.")
         except Exception as e:
             print(f"Error closing MongoDB connection: {e}")
+
+if __name__ == "__main__":
+    try:
+        print("trying")
+        # Initialize the database
+        db = Database(
+            mongo_uri="mongodb+srv://akshayareddy:akshaya20@clusterprac.w63oe.mongodb.net/?retryWrites=true&w=majority&appName=Clusterprac",
+            db_name="parksense",
+            collection_name="car_logs"
+        )
+        
+        # Test upserting a sample number plate
+        test_plate = "TEST1234"
+        print(f"\nTesting upsert for number plate: {test_plate}")
+        upsert_result = db.upsert_number_plate(test_plate)
+        if upsert_result:
+            print(f"Successfully upserted number plate: {test_plate}")
+        else:
+            print(f"Failed to upsert number plate: {test_plate}")
+        
+        # Test checking if the number plate exists
+        print(f"\nChecking if number plate {test_plate} exists")
+        exists = db.check_number_plate(test_plate)
+        if exists:
+            print(f"Number plate {test_plate} found in database.")
+        else:
+            print(f"Number plate {test_plate} not found in database.")
+        
+        # Test checking a non-existent number plate
+        test_plate_nonexistent = "FAKE9999"
+        print(f"\nChecking if number plate {test_plate_nonexistent} exists")
+        exists = db.check_number_plate(test_plate_nonexistent)
+        if exists:
+            print(f"Number plate {test_plate_nonexistent} found in database.")
+        else:
+            print(f"Number plate {test_plate_nonexistent} not found in database.")
+        
+    except Exception as e:
+        print(f"Test failed: {e}")
+    finally:
+        # Close the database connection
+        db.close()
