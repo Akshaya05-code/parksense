@@ -1,0 +1,380 @@
+/* Reset default styles for consistency */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Global styles */
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+    color: #1e293b;
+    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow-x: hidden;
+}
+
+/* Container styles */
+.container {
+    text-align: center;
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    animation: fadeIn 1s ease-in-out;
+}
+
+/* Heading styles */
+.container h2 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #1e40af;
+    margin-bottom: 1.5rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+/* Info section styles */
+.info {
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    background: #f1f5f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.info p {
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: #475569;
+    margin: 0.5rem 0;
+}
+
+.info p strong {
+    color: #1e293b;
+    font-weight: 700;
+}
+
+/* Main content layout */
+.main-content {
+    display: flex;
+    justify-content: center;
+    gap: 3rem;
+    flex-wrap: wrap;
+    padding: 1rem;
+}
+
+/* QR code section */
+.qr-section {
+    background: #ffffff;
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.qr-section:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+.qr-section img {
+    width: 250px;
+    height: auto;
+    border: 3px solid #dbeafe;
+    padding: 8px;
+    background: #ffffff;
+    border-radius: 8px;
+    transition: border-color 0.3s ease;
+}
+
+.qr-section img:hover {
+    border-color: #3b82f6;
+}
+
+/* Map container styles */
+.map-container {
+    position: relative;
+    width: 400px;
+    height: 650px;
+    background: url('/static/map3.jpg');
+    background-size: cover;
+    background-position: center;
+    border: 3px solid #dbeafe;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.map-container:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+/* Slot styles */
+.slot {
+    position: absolute;
+    width: 70px;
+    height: 35px;
+    left: 150px;
+    border: 2px solid #dbeafe;
+    background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 6px;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.slot:hover {
+    background-color: rgba(255, 255, 255, 0.7);
+    border-color: #93c5fd;
+}
+
+.highlight {
+    background-color: rgba(34, 197, 94, 0.6);
+    border-color: #22c55e;
+}
+
+.highlight:hover {
+    background-color: rgba(34, 197, 94, 0.8);
+    border-color: #16a34a;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.container, .qr-section, .map-container {
+    animation: fadeIn 1.2s ease-in-out;
+}
+
+/* Responsive design */
+@media (max-width: 1024px) {
+    .container {
+        margin: 1.5rem;
+        padding: 1.5rem;
+    }
+
+    .container h2 {
+        font-size: 2rem;
+    }
+
+    .info p {
+        font-size: 1.1rem;
+    }
+
+    .main-content {
+        gap: 2rem;
+    }
+
+    .map-container {
+        width: 350px;
+        height: 550px;
+    }
+
+    .slot {
+        width: 60px;
+        height: 30px;
+        left: 130px;
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        margin: 1rem;
+        padding: 1rem;
+    }
+
+    .container h2 {
+        font-size: 1.8rem;
+        letter-spacing: 1px;
+    }
+
+    .info {
+        padding: 1rem;
+    }
+
+    .info p {
+        font-size: 1rem;
+    }
+
+    .main-content {
+        flex-direction: column;
+        align-items: center;
+        gap: 1.5rem;
+    }
+
+    .qr-section {
+        padding: 1rem;
+    }
+
+    .qr-section img {
+        width: 200px;
+    }
+
+    .map-container {
+        width: 300px;
+        height: 500px;
+    }
+
+    .slot {
+        width: 50px;
+        height: 25px;
+        left: 110px;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        margin: 0.5rem;
+        padding: 0.75rem;
+    }
+
+    .container h2 {
+        font-size: 1.5rem;
+    }
+
+    .info p {
+        font-size: 0.9rem;
+    }
+
+    .qr-section img {
+        width: 180px;
+    }
+
+    .map-container {
+        width: 250px;
+        height: 400px;
+    }
+
+    .slot {
+        width: 40px;
+        height: 20px;
+        left: 90px;
+    }
+}
+
+/* Accessibility enhancements */
+@media (prefers-contrast: high) {
+    body {
+        background: #ffffff;
+        color: #000000;
+    }
+
+    .container {
+        background: #ffffff;
+        border: 2px solid #000000;
+    }
+
+    .info {
+        background: #f0f0f0;
+        border: 1px solid #000000;
+    }
+
+    .qr-section img {
+        border-color: #000000;
+    }
+
+    .map-container {
+        border-color: #000000;
+    }
+
+    .slot {
+        border-color: #000000;
+    }
+
+    .highlight {
+        background-color: #00ff00;
+        border-color: #008000;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .container, .qr-section, .map-container, .slot {
+        animation: none;
+        transition: none;
+    }
+}
+
+/* Typography enhancements */
+h2, .info p, .info strong {
+    font-family: 'Inter', sans-serif;
+}
+
+/* Subtle border and shadow effects */
+.container, .info, .qr-section, .map-container {
+    border: 1px solid rgba(203, 213, 225, 0.3);
+}
+
+/* Smooth scrolling */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Additional spacing and alignment */
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.info, .qr-section, .map-container {
+    width: 100%;
+    max-width: 600px;
+}
+
+.main-content {
+    align-items: center;
+}
+
+/* Hover effects for interactivity */
+.info:hover {
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+}
+
+.qr-section img:focus {
+    outline: 3px solid #93c5fd;
+    outline-offset: 2px;
+}
+
+/* Ensure map background is crisp */
+.map-container {
+    background-repeat: no-repeat;
+    background-attachment: scroll;
+}
+
+/* Fine-tuned slot positioning */
+.slot {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    color: #1e293b;
+    font-weight: 500;
+}
+
+.highlight {
+    font-weight: 600;
+    color: #14532d;
+}
+
+/* Ensure QR code is centered */
+.qr-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

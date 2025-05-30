@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Parking Map</title>
+  <style>
+    /* Reset default styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* Body styles */
+    body {
+      background: linear-gradient(135deg, #FFF7E6, #F5E8C7);
+      color: #333333;
+      font-family: 'Arial', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      overflow: auto;
+    }
+
+    /* Map container */
+    .map-container {
+      position: relative;
+      width: 90vw; /* Use most of the viewport width */
+      max-width: 360px; /* Cap for larger phones */
+      height: 80vh; /* Use most of the viewport height */
+      max-height: 600px;
+      background: linear-gradient(145deg, #F5F5F5, #ECECEC);
+      border: 3px solid #333333;
+      border-radius: 15px;
+      box-shadow: 0 0 20px rgba(102, 102, 102, 0.2);
+      padding: 15px;
+      overflow: hidden;
+    }
+
+    /* Entry point label */
+    .entry-point {
+      position: absolute;
+      top: -50px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 1rem;
+      font-weight: bold;
+      color: #FFFFFF;
+      background: #26A69A;
+      padding: 5px 12px;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(38, 166, 154, 0.5);
+      z-index: 3;
+    }
+
+    /* Entry point gate */
+    .entry-point::before {
+      content: '';
+      position: absolute;
+      top: 40px;
+      left: 50%;
+      width: 50px;
+      height: 20px;
+      background: linear-gradient(0deg, #00897B, #26A69A);
+      border: 2px solid #333333;
+      border-radius: 5px;
+      box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.2);
+      transform: translateX(-50%);
+      z-index: 2;
+    }
+
+    /* Entry point arrow */
+    .entry-point::after {
+      content: '';
+      position: absolute;
+      top: 58px;
+      left: 50%;
+      width: 0;
+      height: 0;
+      border-left: 8px solid transparent;
+      border-right: 8px solid transparent;
+      border-top: 10px solid #26A69A;
+      transform: translateX(-50%);
+      z-index: 3;
+    }
+
+    /* Slots wrapper */
+    .slots-wrapper {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 12px;
+      padding: 60px 15px;
+      z-index: 2;
+    }
+
+    /* Parking lot background lines */
+    .slots-wrapper::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 25px,
+        rgba(51, 51, 51, 0.1) 25px,
+        rgba(51, 51, 51, 0.1) 27px
+      );
+      z-index: 0;
+    }
+
+    /* Individual slot */
+    .slot {
+      position: relative;
+      width: 120px;
+      height: 50px;
+      background: #E0E0E0;
+      border: 2px solid #333333;
+      border-radius: 8px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1rem;
+      font-weight: bold;
+      color: #333333;
+      box-shadow: 0 0 10px rgba(102, 102, 102, 0.2);
+      z-index: 1;
+      touch-action: manipulation; /* Improve touch interaction */
+    }
+
+    /* Slot label */
+    .slot::before {
+      content: attr(data-slot-id);
+      position: absolute;
+      left: -25px;
+      top: 50%;
+      transform: translateY(-50%) rotate(-90deg);
+      font-size: 0.9rem;
+      color: #FFFFFF;
+      background: #4DB6AC;
+      padding: 3px 10px;
+      border-radius: 5px;
+    }
+
+    /* Highlighted slot */
+    .highlight {
+      background: rgba(255, 140, 102, 0.3);
+      border-color: #FF8C66;
+      box-shadow: 0 0 15px #FF8C66;
+      animation: pulse 1.5s infinite ease-in-out;
+    }
+
+    /* Hover effect for slots (disabled for mobile, replaced with active) */
+    .slot:active {
+      transform: scale(1.05);
+      box-shadow: 0 0 20px rgba(102, 102, 102, 0.3);
+    }
+
+    /* Animation for highlighted slot */
+    @keyframes pulse {
+      0% {
+        box-shadow: 0 0 10px #FF8C66;
+      }
+      50% {
+        box-shadow: 0 0 20px #FF8C66, 0 0 30px #FF8C66;
+      }
+      100% {
+        box-shadow: 0 0 10px #FF8C66;
+      }
+    }
+
+    /* Title above map */
+    .map-title {
+      position: absolute;
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: #FFFFFF;
+      background: #4DB6AC;
+      padding: 5px 15px;
+      border-radius: 5px;
+      z-index: 3;
+    }
+
+    /* High contrast mode for accessibility */
+    @media (prefers-contrast: high) {
+      body {
+        background: #FFFFFF;
+        color: #000000;
+      }
+
+      .map-container {
+        background: #FFFFFF;
+        border-color: #000000;
+      }
+
+      .slot {
+        border-color: #000000;
+        background: #CCCCCC;
+      }
+
+      .highlight {
+        background: #FF8C66;
+        border-color: #FF8C66;
+      }
+
+      .entry-point::before {
+        background: #26A69A;
+        border-color: #000000;
+      }
+
+      .entry-point::after {
+        border-top-color: #26A69A;
+      }
+    }
+
+    /* Reduced motion for accessibility */
+    @media (prefers-reduced-motion: reduce) {
+      .slot, .highlight, .entry-point::before {
+        animation: none;
+        transition: none;
+      }
+    }
+
+    /* Smooth scrolling */
+    html {
+      scroll-behavior: smooth;
+    }
+  </style>
+</head>
+<body>
+  <div class="map-container">
+    
+    <div class="entry-point">Entry Point</div>
+    <div class="slots-wrapper">
+      {% for i in range(1, 11) %}
+        {% set slot_id = "A" ~ i %}
+        <div class="slot {% if slot == slot_id %}highlight{% endif %}" data-slot-id="{{ slot_id }}">{{ slot_id }}</div>
+      {% endfor %}
+    </div>
+  </div>
+</body>
+</html>

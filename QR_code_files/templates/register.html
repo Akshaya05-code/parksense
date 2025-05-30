@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register Visitor</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+     <style>
+        body {
+            background: linear-gradient(135deg, #FFF7E6, #F5E8C7);
+            color: #333333;
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: auto;
+            padding: 15px;
+        }
+        .flash-message {
+            background-color: #ffe0e0;
+            color: #d8000c;
+            padding: 10px;
+            border: 1px solid #d8000c;
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
+        .container {
+            position: relative;
+            width: 90vw;
+            max-width: 360px;
+            background: linear-gradient(145deg, #F5F5F5, #ECECEC);
+            border: 3px solid #333333;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(102, 102, 102, 0.2);
+            padding: 25px;
+            text-align: center;
+            touch-action: manipulation; /* Improve touch interaction */
+        }
+
+        
+        .container:active {
+            transform: scale(1.02);
+            box-shadow: 0 0 30px rgba(102, 102, 102, 0.3);
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #26A69A;
+            margin-bottom: 25px;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+        .view-button {
+      margin-top: 20px;
+    }
+
+    .view-button{
+      text-decoration: none;
+      padding: 10px 20px;
+      background: rgba(0, 137, 123, 0.3);
+      color:   #00897B;
+      border-radius: 6px;
+      font-weight: bold;
+      transition: background 0.3s;
+    }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Register Your Mobile Number</h2>
+        
+        {% if error %}
+        <div class="flash-message">{{ error }}</div>
+        {% endif %}
+
+        <form method="POST">
+            <label for="mobile">Mobile Number:</label><br>
+            <input type="text" id="mobile" name="mobile" required><br>
+            <button class="view-button" type="submit">Register</button>
+        </form>
+        <p>Car Number: {{ car_number }}</p>
+    </div>
+</body>
+</html>

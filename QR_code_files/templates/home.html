@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SLAASH</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='home.css') }}">
+</head>
+<body>
+    <header class="header">
+        <h1>SLAASH</h1>
+        <h3 class="tagline">Detect. Track. Park.</h3>
+    </header>
+    <main class="main-content">
+        <section class="welcome-section">
+            <h2>Welcome to Smart Parking System</h2>
+            <p class="intro">Experience seamless parking with our advanced rover technology.</p>
+        </section>
+        <section class="video-section">
+            <h4>Live Vehicle Camera</h4>
+            <div class="video-wrapper">
+                <img src="{{ url_for('video_feed') }}" width="600" class="video-feed"><br><br>
+            </div>
+            <p class="info">Capture real-time vehicle data to optimize parking efficiency.</p>
+            <form method="POST" action="/capture">
+                <button type="submit" class="capture-btn">Capture Vehicle</button>
+            </form>
+        </section>
+    </main>
+</body>
+</html>
+<!-- Total lines: 100 -->

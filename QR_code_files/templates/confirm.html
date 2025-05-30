@@ -1,0 +1,120 @@
+<!-- confirm.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Registration Confirmed</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  <style>
+    body {
+            background: linear-gradient(135deg, #FFF7E6, #F5E8C7);
+            color: #333333;
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: auto;
+            padding: 15px;
+        }
+    
+    position: relative;
+            width: 90vw;
+            max-width: 360px;
+            background: linear-gradient(145deg, #F5F5F5, #ECECEC);
+            border: 3px solid #333333;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(102, 102, 102, 0.2);
+            padding: 25px;
+            text-align: center;
+            touch-action: manipulation;
+
+    .info {
+      color:red;
+      margin-bottom: 20px;
+    }
+    h2 {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #26A69A;
+            margin-bottom: 25px;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+    .main-content {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      flex-wrap: wrap;
+    }
+    .container {
+            position: relative;
+            width: 90vw;
+            max-width: 360px;
+            background: linear-gradient(145deg, #F5F5F5, #ECECEC);
+            border: 3px solid #333333;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(102, 102, 102, 0.2);
+            padding: 25px;
+            text-align: center;
+            touch-action: manipulation; /* Improve touch interaction */
+        }
+
+        
+        .container:active {
+            transform: scale(1.02);
+            box-shadow: 0 0 30px rgba(102, 102, 102, 0.3);
+        }
+
+    .qr-section img {
+      width: 250px;
+      height: auto;
+      border: 2px solid white;
+      padding: 5px;
+      background: #fff;
+    }
+     
+    p strong {
+                color: #00897B;
+            }
+    .view-button {
+      margin-top: 20px;
+    }
+
+    .view-button a {
+      text-decoration: none;
+      padding: 10px 20px;
+      background: rgba(0, 137, 123, 0.3);
+      color:   #00897B;
+      border-radius: 6px;
+      font-weight: bold;
+      transition: background 0.3s;
+    }
+
+    .view-button a:hover {
+      background:  #00897B;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Registration Confirmed!</h2>
+    <div class="info">
+      <p><strong>Car Number:</strong> {{ car_number }}</p>
+      <p><strong>Mobile:</strong> {{ mobile }}</p>
+      <p><strong>Slot:</strong> {{ slot }}</p>
+    </div>
+
+    <div class="main-content">
+      <div class="qr-section">
+        <img src="data:image/png;base64,{{ qr_img }}" alt="QR Code">
+      </div>
+    </div>
+
+    <div class="view-button">
+      <a href="{{ url_for('parking_map', slot=slot) }}" target="_blank">View Parking Area</a>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exit Details</title>
+    <style>
+        /* Reset default styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Body styles with whitish cream theme */
+        body {
+            background: linear-gradient(135deg, #FFF7E6, #F5E8C7);
+            color: #333333;
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: auto;
+            padding: 15px;
+        }
+
+        /* Card container for exit details */
+        .exit-details-container {
+            position: relative;
+            width: 90vw;
+            max-width: 360px;
+            background: linear-gradient(145deg, #F5F5F5, #ECECEC);
+            border: 3px solid #333333;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(102, 102, 102, 0.2);
+            padding: 25px;
+            text-align: center;
+            touch-action: manipulation; /* Improve touch interaction */
+        }
+
+        /* Active effect for container (replacing hover for mobile) */
+        .exit-details-container:active {
+            transform: scale(1.02);
+            box-shadow: 0 0 30px rgba(102, 102, 102, 0.3);
+        }
+
+        /* Heading styles */
+        h1,h3 {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #26A69A;
+            margin-bottom: 25px;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Paragraph styles */
+        p {
+            font-size: 1.3rem;
+            margin: 15px 0;
+            color: #333333;
+        }
+
+        /* Strong text for labels */
+        p strong {
+            color: #4DB6AC;
+            font-weight: bold;
+        }
+
+        /* Success message highlight */
+        .success-message {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: #26A69A;
+            margin-top: 25px;
+            padding: 12px;
+            background: rgba(38, 166, 154, 0.1);
+            border-radius: 8px;
+        }
+
+        /* Active effect for success message (replacing hover for mobile) */
+        .success-message:active {
+            background: rgba(38, 166, 154, 0.2);
+        }
+
+        /* Responsive design for smaller mobile devices */
+        @media (max-width: 480px) {
+            .exit-details-container {
+                max-width: 320px;
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 1.6rem;
+            }
+
+            p {
+                font-size: 1.2rem;
+            }
+
+            .success-message {
+                font-size: 1.3rem;
+                padding: 10px;
+            }
+        }
+
+        /* High contrast mode for accessibility */
+        @media (prefers-contrast: high) {
+            body {
+                background: #FFFFFF;
+                color: #000000;
+            }
+
+            .exit-details-container {
+                background: #FFFFFF;
+                border-color: #000000;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            }
+
+            h1, .success-message {
+                color: #00897B;
+            }
+            
+            p strong {
+                color: #00897B;
+            }
+
+            .success-message {
+                background: rgba(0, 137, 123, 0.3);
+            }
+        }
+
+        /* Reduced motion for accessibility */
+        @media (prefers-reduced-motion: reduce) {
+            .exit-details-container, .success-message {
+                transition: none;
+            }
+        }
+
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body>
+    <div class="exit-details-container">
+        <h1>Thank you, {{ car_number }}</h1>
+        <p><strong>Parking Time:</strong> {{ time_range }}</p>
+        <p><strong>Duration:</strong> {{ duration }}</p>
+        <p><strong>Cost:</strong> ₹{{ total_cost }}</p>
+        <p class="success-message">Your exit has been recorded successfully.</p>
+        <h3>Scan this to pay</h3>
+        <img src="{{ url_for('static', filename='qr.jpg') }}" alt="QR Code" width="200" height="200">
+
+    </div>
+</body>
+</html>

@@ -1,0 +1,370 @@
+/* Reset default styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Global styles */
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+    color: #1e293b;
+    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+}
+
+/* Header styles */
+.header {
+    text-align: center;
+    padding: 2rem 1rem;
+    background: #e7e0e0;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+/* Main heading */
+.header h1 {
+    font-size: 4rem;
+    font-weight: 900;
+    color: black;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    background: linear-gradient(90deg, black, #212223);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 0.5rem;
+}
+
+/* Tagline */
+.header .tagline {
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: rgb(37, 35, 35);
+    letter-spacing: 1.5px;
+    opacity: 0.85;
+    animation: slideIn 1.4s ease-in-out;
+}
+
+/* Main content */
+.main-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 3rem 1rem;
+    flex: 1;
+}
+
+/* Welcome section */
+.welcome-section {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+/* Welcome heading */
+.welcome-section h2 {
+    font-size: 2rem;
+    font-weight: 400;
+    color: #475569;
+    margin-bottom: 1rem;
+    opacity: 0.9;
+}
+
+/* Intro paragraph */
+.welcome-section .intro {
+    font-size: 1.2rem;
+    color: #64748b;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Video section */
+.video-section {
+    text-align: center;
+}
+
+/* Video subheading */
+.video-section h4 {
+    font-size: 1.7rem;
+    font-weight: 400;
+    color: #475569;
+    margin-bottom: 1.5rem;
+    opacity: 0.9;
+}
+
+/* Video wrapper */
+.video-wrapper {
+    display: inline-block;
+    padding: 0.5rem;
+    border-radius: 10px;
+    border: 2px solid #dbeafe;
+    transition: border-color 0.3s ease;
+}
+
+/* Video wrapper hover effect */
+.video-wrapper:hover {
+    border-color: #e7e0e0;
+}
+
+/* Video feed */
+.video-feed {
+    max-width: 100%;
+    width: 600px;
+    height: auto;
+    border-radius: 8px;
+    transition: transform 0.3s ease;
+}
+
+/* Video feed hover effect */
+.video-feed:hover {
+    transform: scale(1.02);
+}
+
+/* Info paragraph */
+.video-section .info {
+    font-size: 1.1rem;
+    color: #64748b;
+    margin: 1.5rem 0;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Capture button */
+.capture-btn {
+    background: linear-gradient(90deg, #e7e0e0, #e0e3e6);
+    color: #ffffff;
+    border: none;
+    padding: 0.9rem 2.5rem;
+    font-size: 1.25rem;
+    font-weight: 600;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 12px rgba(140, 142, 146, 0.3);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Capture button hover effect */
+.capture-btn:hover {
+    background: linear-gradient(90deg, #e7e0e0, #bcbec0);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 16px rgba(135, 138, 142, 0.4);
+}
+
+/* Capture button active state */
+.capture-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 8px rgba(181, 184, 189, 0.2);
+}
+
+/* Capture button focus state */
+.capture-btn:focus {
+    outline: 3px solid #e4e5e6;
+    outline-offset: 2px;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Apply animations */
+.header, .welcome-section, .video-feed, .capture-btn, .tagline, .intro, .info {
+    animation: fadeIn 1.2s ease-in-out;
+}
+
+/* Responsive design for large screens */
+@media (max-width: 1200px) {
+    .main-content {
+        padding: 2rem 1rem;
+    }
+
+    .header h1 {
+        font-size: 3.5rem;
+    }
+
+    .header .tagline {
+        font-size: 1.4rem;
+    }
+
+    .welcome-section h2 {
+        font-size: 1.9rem;
+    }
+
+    .video-feed {
+        width: 100%;
+        max-width: 550px;
+    }
+}
+
+/* Responsive design for tablets */
+@media (max-width: 1024px) {
+    .header h1 {
+        font-size: 3.2rem;
+        letter-spacing: 2px;
+    }
+
+    .header .tagline {
+        font-size: 1.3rem;
+    }
+
+    .welcome-section h2 {
+        font-size: 1.7rem;
+    }
+
+    .video-section h4 {
+        font-size: 1.5rem;
+    }
+
+    .video-feed {
+        max-width: 500px;
+    }
+
+    .capture-btn {
+        padding: 0.8rem 2rem;
+        font-size: 1.1rem;
+    }
+}
+
+/* Responsive design for small tablets */
+@media (max-width: 768px) {
+    .header {
+        padding: 1.5rem 1rem;
+    }
+
+    .header h1 {
+        font-size: 2.8rem;
+        letter-spacing: 1.5px;
+    }
+
+    .header .tagline {
+        font-size: 1.2rem;
+    }
+
+    .welcome-section h2 {
+        font-size: 1.5rem;
+    }
+
+    .video-section h4 {
+        font-size: 1.3rem;
+    }
+
+    .video-wrapper {
+        padding: 0.3rem;
+    }
+
+    .capture-btn {
+        padding: 0.7rem 1.8rem;
+        font-size: 1rem;
+    }
+}
+
+/* Responsive design for mobile devices */
+@media (max-width: 480px) {
+    .header h1 {
+        font-size: 2.2rem;
+        letter-spacing: 1px;
+    }
+
+    .header .tagline {
+        font-size: 1.1rem;
+    }
+
+    .welcome-section h2 {
+        font-size: 1.3rem;
+    }
+
+    .welcome-section .intro {
+        font-size: 1rem;
+    }
+
+    .video-section h4 {
+        font-size: 1.2rem;
+    }
+
+    .video-section .info {
+        font-size: 0.9rem;
+    }
+
+    .video-feed {
+        max-width: 100%;
+    }
+
+    .capture-btn {
+        padding: 0.6rem 1.5rem;
+        font-size: 0.9rem;
+    }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+    body {
+        background: #ffffff;
+        color: #000000;
+    }
+
+    .header {
+        background: #ffffff;
+        border-bottom: 2px solid #000000;
+    }
+
+    .header h1 {
+        color: #000000;
+        -webkit-text-fill-color: #000000;
+    }
+
+    .header .tagline, .welcome-section h2, .video-section h4, .intro, .info {
+        color: #000000;
+    }
+
+    .video-wrapper {
+        border-color: #000000;
+    }
+
+    .capture-btn {
+        background: #000000;
+        color: #ffffff;
+    }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    .header, .welcome-section, .video-feed, .capture-btn, .tagline, .intro, .info, .video-wrapper {
+        animation: none;
+        transition: none;
+    }
+}
+
+/* Typography enhancements */
+h1, .tagline, h2, h4, .intro, .info, .capture-btn {
+    font-family: 'Inter', sans-serif;
+    font-feature-settings: 'liga', 'kern';
+}
+
+/* Smooth scrolling */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Total lines: 300 */
