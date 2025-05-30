@@ -3,6 +3,8 @@ import pytesseract
 import numpy as np
 from pathlib import Path
 
+pytesseract.pytesseract.tesseract_cmd = "/usr/bin/tesseract"
+
 class NumberPlateExtractor:
     """Class to extract text from number plate images using pytesseract."""
     
@@ -14,7 +16,7 @@ class NumberPlateExtractor:
             tesseract_cmd (str, optional): Path to tesseract executable if required.
         """
         if tesseract_cmd:
-            pytesseract.pytesseract.tesseract_cmd = tesseract_cmd
+            pytesseract.pytesseract.tesseract_cmd = "/usr/bin/tesseract"
     
     def preprocess_plate(self, img):
         """Preprocess the number plate image to improve OCR accuracy.
@@ -52,16 +54,23 @@ class NumberPlateExtractor:
         try:
             preprocessed = self.preprocess_plate(img)
             if preprocessed is None:
+                print("Preprocessing returned None.")
                 return None
+            
+            # Save preprocessed image for debugging
+            cv2.imwrite("preprocessed_plate.jpg", preprocessed)
+            print("Preprocessed image saved as preprocessed_plate.jpg")
             
             # Configure tesseract for alphanumeric characters
             custom_config = r'--oem 3 --psm 8 -c tessedit_char_whitelist=ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
             text = pytesseract.image_to_string(preprocessed, config=custom_config)
+            print(f"Raw OCR output: '{text}'")
             text = text.strip().replace('\n', '').replace(' ', '')
             
             # Basic validation: check if text is reasonable (e.g., length > 2)
             if len(text) > 2 and any(c.isalnum() for c in text):
                 return text
+            print("Text validation failed: too short or no alphanumeric characters.")
             return None
         except Exception as e:
             print(f"Error extracting text from number plate: {e}")
@@ -92,35 +101,38 @@ class NumberPlateExtractor:
                 print("Empty cropped image.")
                 return None
             
+            # Save cropped image for debugging
+            cv2.imwrite("cropped_plate.jpg", plate_img)
+            print("Cropped image saved as cropped_plate.jpg")
+            
             return self.extract_text(plate_img)
         except Exception as e:
             print(f"Error processing number plate: {e}")
             return None
 
-# if __name__ == "__main__":
-#     # Example usage for testing NumberPlateExtractor
-#     try:
-#         # Initialize the extractor with Tesseract path for Windows
-#         extractor = NumberPlateExtractor(tesseract_cmd=r"C:\Program Files\Tesseract-OCR\tesseract.exe")
+if __name__ == "__main__":
+    try:
+        # Initialize the extractor with the correct Tesseract path
+        extractor = NumberPlateExtractor(tesseract_cmd=r"/usr/bin/tesseract")
         
-#         # Load the sample image
-#         sample_image_path = "/captured_images/car1.jpg"  # Path relative to parksense/scripts/
-#         img = cv2.imread(sample_image_path)
-#         if img is None:
-#             print(f"Failed to load sample image: {sample_image_path}")
-#             exit(1)
+        # Load the sample image using absolute path
+        sample_image_path = "../captured_images/car1.jpg"
+        img = cv2.imread(sample_image_path)
+        if img is None:
+            print(f"Failed to load sample image: {sample_image_path}")
+            exit(1)
         
-#         # Set bounding box to entire image size
-#         height, width = img.shape[:2]
-#         sample_box = [0, 0, width, height]  # [x1, y1, x2, y2]
-#         print(f"Image dimensions: {width}x{height}, Using sample_box: {sample_box}")
+        # Set bounding box to entire image size
+        height, width = img.shape[:2]
+        sample_box = [0, 0, width, height]
+        print(f"Image dimensions: {width}x{height}, Using sample_box: {sample_box}")
         
-#         # Process the number plate
-#         plate_text = extractor.process_plate(img, sample_box)
-#         if plate_text:
-#             print(f"Extracted number plate text: {plate_text}")
-#         else:
-#             print("Failed to extract number plate text.")
+        # Process the number plate
+        plate_text = extractor.process_plate(img, sample_box)
+        if plate_text:
+            print(f"Extracted number plate text: {plate_text}")
+        else:
+            print("Failed to extract number plate text.")
             
-#     except Exception as e:
-#         print(f"Error in test: {e}")
+    except Exception as e:
+        print(f"Error in test: {e}")

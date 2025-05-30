@@ -199,13 +199,13 @@ if __name__ == "__main__":
     
     # Example usage for testing
     model_loader = ModelLoader(
-        car_model_path="parksense\models\car.onnx",
-        np_model_path="parksense\models\\np.onnx"
+        car_model_path="../models/car.onnx",
+        np_model_path="../models//np.onnx"
     )
     inference = ModelInference(model_loader)
     car_boxes, car_scores, car_class_ids, np_boxes, np_scores, np_class_ids = inference.infer(
-        img_path="parksense\captured_images/car1.jpg",
-        output_path="parksense\captured_images/output.jpg"
+        img_path="../captured_images/car1.jpg",
+        output_path="../captured_images/output.jpg"
     )
     print("Car detections:", len(car_boxes))
     print("Number plate detections:", len(np_boxes))

@@ -84,8 +84,9 @@ class ModelLoader:
 if __name__ == "__main__":
     # Example usage for testing
     model_loader = ModelLoader(
-        car_model_path="../models/car.onnx",
-        np_model_path="../models//np.onnx"
+        car_model_path="rover\parksense\models\car.onnx",
+        np_model_path="rover\parksense\models\\np.onnx"
     )
     print("Car model input name:", model_loader.get_car_input_name())
     print("Number plate model input name:", model_loader.get_np_input_name())
+np_model_path="parksense\models\\np.onnx"
